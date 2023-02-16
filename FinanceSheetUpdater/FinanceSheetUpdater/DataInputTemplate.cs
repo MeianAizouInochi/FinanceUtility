@@ -159,7 +159,7 @@ namespace FinanceSheetUpdater
             {
                 using (StreamWriter sw = new StreamWriter(OutputPath, true))
                 {
-                    sw.WriteLine(Item_Name, Item_Class, Item_Amount, credit, debit);
+                    sw.WriteLine(Item_Name+","+ Item_Class + "," + Item_Amount + "," + credit + "," + debit);
 
                     sw.Flush();
 
