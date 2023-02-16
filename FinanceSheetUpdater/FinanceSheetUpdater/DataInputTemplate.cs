@@ -30,7 +30,7 @@ namespace FinanceSheetUpdater
         /*
          * Path of the Output .csv File. [Made static so it can be accessed from outside the class without having to depend on creating an instance.]
          */
-        public static string OutputPath = @"\FinancialDataSheet.csv";
+        public static string OutputPath = @"C:\Users\meian\OneDrive\Documents\FinancialUtilityOutputs\FinancialDataSheetOutput\FinancialDataSheet.csv";
 
 
         /*
