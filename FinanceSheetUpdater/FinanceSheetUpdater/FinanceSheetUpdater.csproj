@@ -5,6 +5,27 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <StartupObject>FinanceSheetUpdater.Program</StartupObject>
+    <ApplicationIcon>bank_bill_finance_invoice_money_payment_receipt_icon_123239.ico</ApplicationIcon>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageIcon>tools_colorsync_utility_rabbit_13001.png</PackageIcon>
+    <PackageProjectUrl>https://github.com/MeianAizouInochi/FinanceUtility</PackageProjectUrl>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="bank_bill_finance_invoice_money_payment_receipt_icon_123239.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\FinancialSheetUpdater_Resources\tools_colorsync_utility_rabbit_13001.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
 </Project>
