@@ -225,7 +225,7 @@ namespace FinanceSheetUpdater
                 catch (Exception e) 
                 {
                     Console.WriteLine(e.ToString());
-                    Console.WriteLine("Error!");
+                    Console.WriteLine("\nError!");
                 }
                
                 Console.WriteLine("Do you want to Continue: ");
