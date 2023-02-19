@@ -29,10 +29,11 @@ namespace FinanceSheetUpdater
 
         /*
          * Path of the Output .csv File. [Made static so it can be accessed from outside the class without having to depend on creating an instance.]
+         * Current Date
          */
         private static string AppPath;
         public static string OutputPath;
-
+        public static string Date;
 
         /*
          * The Current Balance. [This is changed by the static constructor right at the beginning of the life cycle of the first instance.]
@@ -101,9 +102,11 @@ namespace FinanceSheetUpdater
         {
             Console.WriteLine("Processing...Please Wait...");
 
-            AppPath = AppDomain.CurrentDomain.BaseDirectory;
+            AppPath = AppDomain.CurrentDomain.BaseDirectory; //Current App Path
 
-            OutputPath = Path.Combine(AppPath, "FinancialDataSheet.csv");
+            OutputPath = Path.Combine(AppPath, "FinancialDataSheet.csv"); //Setting Output Path
+
+            Date = DateTime.Now.ToShortDateString(); //Setting Current Date.
 
             if (File.Exists(OutputPath))
             {
@@ -174,7 +177,7 @@ namespace FinanceSheetUpdater
                         /*
                          * Load The Value from LastLine into CurrentBalance Variable.
                          */
-                        CurrentBalance = Convert.ToDouble(LastLineOld_FinancialDataSheet_File[3]);
+                        CurrentBalance = Convert.ToDouble(LastLineOld_FinancialDataSheet_File[4]);
                     }
                     catch (Exception e)
                     {
@@ -224,7 +227,7 @@ namespace FinanceSheetUpdater
                     /*
                      * Adding the Headings to the First Line of the .csv File.
                      */
-                    sw.WriteLine("Item Name,Item Class,Item Amount,Credit,Debit");
+                    sw.WriteLine("Date,Item Name,Item Class,Item Amount,Credit,Debit");
 
                     sw.Flush();
 
@@ -264,7 +267,7 @@ namespace FinanceSheetUpdater
             {
                 using (StreamWriter sw = new StreamWriter(OutputPath, true))
                 {
-                    sw.WriteLine(Item_Name+","+ Item_Class + "," + Item_Amount + "," + credit + "," + debit);
+                    sw.WriteLine(Date+","+Item_Name+","+ Item_Class + "," + Item_Amount + "," + credit + "," + debit);
 
                     sw.Flush();
 

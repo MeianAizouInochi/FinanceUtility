@@ -108,10 +108,12 @@ namespace FinanceSheetUpdater
                     }
                     catch (Exception e)
                     {
+                        Console.WriteLine(e.Message);
+
                         temp = true;
                     }
 
-                    if (Item_Amount==0.0D)
+                    if (Item_Amount==0.0D || (Item_Amount!=-1.0D && Item_Amount<0.0D))
                     {
                         temp = true;
                     }
@@ -142,8 +144,16 @@ namespace FinanceSheetUpdater
                     }
                     catch (Exception e)
                     {
+                        Console.WriteLine(e.Message);
+                        
                         temp = true;
                     }
+
+                    if (Credit != -1.0D && Credit < 0.0D)
+                    {
+                        temp = true;
+                    }
+
                 }
                 while (temp);
 
@@ -168,6 +178,13 @@ namespace FinanceSheetUpdater
                         temp = false;
                     }
                     catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+
+                        temp = true;
+                    }
+
+                    if (Debit != -1.0D && Debit < 0.0D)
                     {
                         temp = true;
                     }
