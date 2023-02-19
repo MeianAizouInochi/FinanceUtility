@@ -30,7 +30,8 @@ namespace FinanceSheetUpdater
         /*
          * Path of the Output .csv File. [Made static so it can be accessed from outside the class without having to depend on creating an instance.]
          */
-        public static string OutputPath = @"C:\Users\meian\OneDrive\Documents\FinancialUtilityOutputs\FinancialDataSheetOutput\FinancialDataSheet.csv";
+        private static string AppPath;
+        public static string OutputPath;
 
 
         /*
@@ -98,13 +99,117 @@ namespace FinanceSheetUpdater
          */        
         static DataInputTemplate() 
         {
+            Console.WriteLine("Processing...Please Wait...");
+
+            AppPath = AppDomain.CurrentDomain.BaseDirectory;
+
+            OutputPath = Path.Combine(AppPath, "FinancialDataSheet.csv");
+
             if (File.Exists(OutputPath))
             {
                 /*
                  * Since The File Exists, then the Last Line of the File needs to get loaded, and parsed to store the Current Balance inside the CurrentBalance field.
                  * 
-                 * Logic of Read Last Line GOes here.
+                 * Logic of Read Last Line Gees here.
+                 * 
+                 * 2 Ways to read the last line of the file:
+                 * 1. Seek to last byte pointer, then read backwards untill reaching first "\n" character, then the read portion is the last line.
+                 * 2. Readuntill the last line from the beginning of the file.
+                 * 
+                 * Since we also need to update the file, i.e. delete the last line, then we need to overwrite/copy the file anyway.
+                 * 
+                 * so, continuing with the 1st way.
                  */
+
+                /*
+                 * Creating Backup of Previos Version.
+                 */
+                File.Copy(OutputPath, Path.Combine(AppPath, "FinancialDataSheet_Just_Previous_Version.csv"),true);
+
+                /*
+                 * string Variables to store Lines that are read. Line1 is Previous line1 to a line2
+                 */
+
+                string? Line1;
+
+                string? Line2;
+
+                /*
+                 * Creating Reader and Writer Object.
+                 */
+                StreamReader Reader = new StreamReader(OutputPath);
+
+                StreamWriter Writer = new StreamWriter(Path.Combine(AppPath, "New_FinancialDataSheet.csv"));
+
+                /*
+                 * Reading First Line.
+                 */
+                Line1 = Reader.ReadLine();
+
+                /*
+                 * Checking for next line, if exist then Writing Value of Line1 to New_FinancialDataSheet.csv.
+                 * and next : Loading the current line to Line1.
+                 */
+                while ((Line2 = Reader.ReadLine()) != null)
+                {
+                    Writer.WriteLine(Line1);
+
+                    Line1 = Line2;
+                }
+
+                /*
+                 * string array for parsing Last Line. 
+                 */
+                string[] LastLineOld_FinancialDataSheet_File;
+
+                /*
+                 * Last Line is stored in Line1.
+                 */
+                if (Line1 != null) //if not null(Only possible when there is corrupted file or error)
+                {
+                    LastLineOld_FinancialDataSheet_File  = Line1.Split(",");
+
+                    try
+                    {
+                        /*
+                         * Load The Value from LastLine into CurrentBalance Variable.
+                         */
+                        CurrentBalance = Convert.ToDouble(LastLineOld_FinancialDataSheet_File[3]);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+
+                        Console.WriteLine("The LastLine contained something else other than the balance.");
+                    }
+                }
+                else 
+                {
+                    Console.WriteLine("Error Occured! [last Line of File is null!]");
+                }
+
+                /*
+                 * CLosing Reader and Writer.
+                 */
+                Reader.Close();
+                Writer.Close();
+
+                /*
+                 * Delete Current FinancialDataSheet.csv.
+                 */
+
+                File.Delete(OutputPath);
+
+                /*
+                 * Rename New_FinancialDataSheet.csv to FinancialDataSheet.csv.
+                 */
+                File.Move(Path.Combine(AppPath, "New_FinancialDataSheet.csv"), OutputPath);
+
+                Thread.Sleep(1000);
+
+                Console.WriteLine("Processing Complete.");
+
+
             }
             else 
             {

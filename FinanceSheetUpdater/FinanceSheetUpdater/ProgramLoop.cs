@@ -26,6 +26,7 @@ namespace FinanceSheetUpdater
              */
             bool Continue = true;
 
+            DataInputTemplate obj;
             /*
              * Introductory Helper Lines.
              */
@@ -187,11 +188,9 @@ namespace FinanceSheetUpdater
 
 
                 /*
-                 * Since We have prepared all Inputs, - We create the DataInputTemplate Object.
-                 * Calling Add on this Object will Add the details to the specified file.
+                 * Since We have prepared all Inputs,
+                 * Calling Add on DataInputTemplate Object will Add the details to the specified file.
                  */
-
-                DataInputTemplate obj;
 
                 try
                 {
@@ -233,6 +232,13 @@ namespace FinanceSheetUpdater
 
             }
             while (Continue);
+
+
+            //Add the last line of .csv file here.
+
+            obj = new DataInputTemplate("Current Balance", "Balance", 1, DataInputTemplate.CurrentBalance, 0);
+
+            obj.Add();
 
             Console.WriteLine("Program will Exit Now.");
            
